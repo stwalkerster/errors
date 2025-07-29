@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik-errors
+  namespace: traefik
+  labels:
+    app: traefik-errors
+spec:
+  selector:
+    matchLabels:
+      app: traefik-errors
+  template:
+    metadata:
+      labels:
+        app: traefik-errors
+    spec:
+      containers:
+        - name: traefik-errors
+          image: ghcr.io/stwalkerster/errors:main
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          readinessProbe:
+            httpGet:
+              path: /503.html
+              port: 80
+            initialDelaySeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          ports:
+            - containerPort: 80
+              name: traefik-errors
+      restartPolicy: Always
