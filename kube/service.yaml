@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: traekfik-errors
+  name: traefik-errors
   namespace: traefik
 spec:
   selector:
-    app: traekfik-errors
+    app: traefik-errors
   ports:
-  - name: traekfik-errors
+  - name: traefik-errors
     protocol: TCP
     port: 80
     targetPort: 80
