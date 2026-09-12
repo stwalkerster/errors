@@ -2,8 +2,13 @@ FROM alpine
 
 RUN apk add --no-cache lighttpd
 
-ADD www-root/ /var/www/localhost/htdocs/
+RUN mkdir /run/lighttpd; chown lighttpd /run/lighttpd
 
-EXPOSE 80
+ADD www-root/ /var/www/localhost/htdocs/
+ADD lighttpd.conf /etc/lighttpd.conf
+
+EXPOSE 8080
+
+USER 100
 
 ENTRYPOINT [ "/usr/sbin/lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf" ]
